@@ -268,6 +268,7 @@ class HabitatSim(habitat_sim.Simulator, Simulator):
         self.habitat_config = config
 
         sim_sensors = []
+        # key: in config simulator.agents:{'main_agent','agent1',...}
         for agent_config in self.habitat_config.agents.values():
             for sensor_cfg in agent_config.sim_sensors.values():
                 sensor_type = registry.get_sensor(sensor_cfg.type)
@@ -277,10 +278,19 @@ class HabitatSim(habitat_sim.Simulator, Simulator):
                 ), "invalid sensor type {}".format(sensor_cfg.type)
                 sim_sensors.append(sensor_type(sensor_cfg))
 
+        # key: 将所有sensor放在一起
         self._sensor_suite = SensorSuite(sim_sensors)
+        '''
+            class SensorSuite:
+                """
+                    Represents a set of sensors, with each sensor being identified
+                    through a unique id.
+                """
+        '''
         self.sim_config = self.create_sim_config(self._sensor_suite)
         self._current_scene = self.sim_config.sim_cfg.scene_id
         super().__init__(self.sim_config)
+
         # load additional object paths specified by the dataset
         # TODO: Should this be moved elsewhere?
         obj_attr_mgr = self.get_object_template_manager()

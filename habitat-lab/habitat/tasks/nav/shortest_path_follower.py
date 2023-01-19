@@ -37,21 +37,6 @@ class ShortestPathFollower:
                           a habitat_sim.errors.GreedyFollowerError instead
     """
 
-    def __init__(
-        self,
-        sim: "HabitatSim",
-        goal_radius: float,
-        return_one_hot: bool = True,
-        stop_on_error: bool = True,
-    ):
-
-        self._return_one_hot = return_one_hot
-        self._sim = sim
-        self._goal_radius = goal_radius
-        self._follower: Optional[habitat_sim.GreedyGeodesicFollower] = None
-        self._current_scene = None
-        self._stop_on_error = stop_on_error
-
     def _build_follower(self):
         if self._current_scene != self._sim.habitat_config.scene:
             self._follower = self._sim.make_greedy_follower(
@@ -69,6 +54,21 @@ class ShortestPathFollower:
             return action_to_one_hot(action)
         else:
             return action
+
+    def __init__(
+        self,
+        sim: "HabitatSim",
+        goal_radius: float,
+        return_one_hot: bool = True,
+        stop_on_error: bool = True,
+    ):
+
+        self._return_one_hot = return_one_hot
+        self._sim = sim
+        self._goal_radius = goal_radius
+        self._follower: Optional[habitat_sim.GreedyGeodesicFollower] = None
+        self._current_scene = None
+        self._stop_on_error = stop_on_error
 
     def get_next_action(
         self, goal_pos: Union[List[float], np.ndarray]

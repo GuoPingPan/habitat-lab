@@ -144,6 +144,8 @@ class Dataset(Generic[T]):
         """
         scenes_to_load = set(config.content_scenes)
 
+        # todo: 这个逻辑有点怪，这里应该是判断episode要用的场景在不在scene_path中才对
+        # key done: 思考错了，这里只是为了验证你episode加载的scene在不在你设定的config里面
         def _filter(ep: T) -> bool:
             return (
                 ALL_SCENES_MASK in scenes_to_load

@@ -95,6 +95,7 @@ class Env:
         self._episode_force_changed = False
 
         # load the first scene if dataset is present
+        # key: one env -> one simulator -> one scene from dataset -> multiple episodes
         if self._dataset:
             assert (
                 len(self._dataset.episodes) > 0

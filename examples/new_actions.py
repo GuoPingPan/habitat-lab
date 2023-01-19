@@ -162,6 +162,8 @@ def main():
         )
 
         config.habitat.simulator.action_space_config = "NoNoiseStrafe"
+        config.habitat.dataset.scenes_dir = '/home/pgp/habitat/habitat-learning/' + config.habitat.dataset.scenes_dir
+        config.habitat.dataset.data_path = '/home/pgp/habitat/habitat-learning/' + config.habitat.dataset.data_path
 
     with habitat.Env(config=config) as env:
         env.reset()
